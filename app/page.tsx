@@ -6,7 +6,6 @@ import CTASection from "./_landingPage-sections/cta";
 import FAQSection from "./_landingPage-sections/faq";
 import Footer from "./_landingPage-sections/footer";
 import RoomShowcaseSection from "./_landingPage-sections/roomShowCase";
-import TestimonialsSection from "./_landingPage-sections/testomonial";
 import About from "./(dashboard)/about-us/page";
 export default function Home() {
   return (
