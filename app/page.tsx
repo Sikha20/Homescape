@@ -1,0 +1,25 @@
+import Hero from "./_landingPage-sections/hero";
+import LandingNavbar from "./_landingPage-sections/landingNavbar";
+import FeaturesSection from "./_landingPage-sections/features";
+import HowItWorksSection from "./_landingPage-sections/howItWorks";
+import CTASection from "./_landingPage-sections/cta";
+import FAQSection from "./_landingPage-sections/faq";
+import Footer from "./_landingPage-sections/footer";
+import RoomShowcaseSection from "./_landingPage-sections/roomShowCase";
+import TestimonialsSection from "./_landingPage-sections/testomonial";
+import About from "./(dashboard)/about-us/page";
+export default function Home() {
+  return (
+    <div className="flex  flex-col  h-screen w-screen items-center overflow-x-hidden">
+      <LandingNavbar />
+      <Hero />
+      <FeaturesSection />
+      <HowItWorksSection />
+      <CTASection />
+      <RoomShowcaseSection />
+      <About></About>
+      <FAQSection />
+      <Footer />
+    </div>
+  );
+}

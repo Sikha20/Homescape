@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  /* Add any color here */
+  --background: #ffffff;
+  --foreground: #000000;
+  --placeholder: #6a6a6a;
+  --primary: #ff395c;
+  /* --primary: #7a6263; */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-small-text: var(--placeholder);
+  --color-primary: var(--primary);
+  --color-secondary: var(--foreground);
+
+  --breakpoint-*: initial;
+  --breakpoint-sm: 450px;
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 1024px;
+}
+
+.cl-avatarBox {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.cl-userButtonPopoverFooter,
+.cl-internal-b3fm6y,
+.cl-internal-1hp5nqm,
+.cl-internal-1t1d062,
+.cl-internal-16mc20d,
+.cl-internal-lk7758,
+.cl-internal-1dauvpw {
+  display: none !important;
+}
+.cl-card {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.cl-headerSubtitle {
+  display: none !important;
+}
+
+.cl-socialButtonsBlockButton {
+  border: 1px solid #e5e7eb !important;
+  background-color: white !important;
+}
+
+.cl-formButtonPrimary {
+  background: var(--color-primary) !important;
+}
+body {
+  background-color: var(--color-background);
+  overflow-x: hidden;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes layeredFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-layeredFade {
+  animation: layeredFade 1s ease-out forwards;
+}

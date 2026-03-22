@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//Properties ==> Properties that the user wants to rent
+//Rental ==> Properties that the user has rented
+
+model User {
+  userId     String  @id @unique
+  name       String?
+  profileUrl String?
+
+  emails     Emails[]
+  properties Property[]
+  reviews    Reviews[]
+  rental     Rental[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Payment Payment[]
+}
+
+model Payment {
+  id                  String    @id @default(cuid())
+  amount              Int?
+  total_amount        Int?
+  bank_reference      String?
+  idx                 String?
+  mobile              String?
+  pidx                String?
+  purchase_order_name String?
+  status              String?
+  t                   String?
+  tidx                String?
+  token               String?
+  transaction_id      String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  User                User?     @relation(fields: [userUserId], references: [userId])
+  userUserId          String?
+  Property            Property? @relation(fields: [propertyId], references: [id])
+  propertyId          String?
+}
+
+model Emails {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  email  String
+}
+
+model Property {
+  id       String @id @default(cuid())
+  userId   String
+  landlord User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  location      Location
+  isListed      Boolean      @default(false)
+  isBooked      Boolean      @default(false)
+  price         Int
+  category      PropertyType
+  noOfRooms     Int?
+  noOfBathrooms Int?
+  description   String
+
+  images  PropertyImages[]
+  reviews Reviews[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Rental    Rental[]
+
+  Payment Payment[]
+}
+
+model PropertyImages {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  image      String
+}
+
+model Reviews {
+  id           String   @id @default(cuid())
+  properties   Property @relation(fields: [propertiesId], references: [id], onDelete: Cascade)
+  propertiesId String
+  userId       String
+  user         User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  rating       Int
+  comment      String
+}
+
+model Rental {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [userId])
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+  VILLA
+  COMMERCIAL_SPACE
+  ROOM
+}
+
+enum Location {
+  Kathmandu
+  Pokhara
+  Lalitpur
+  Bhaktapur
+  Biratnagar
+  Birgunj
+  Dharan
+  Nepalgunj
+  Butwal
+  Dhangadhi
+  Itahari
+  Hetauda
+  Janakpur
+  Bharatpur
+  Chitwan
+  Lumbini
+  Gorkha
+  Ilam
+  Tansen
+  Dhulikhel
+}
