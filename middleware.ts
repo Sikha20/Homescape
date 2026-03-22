@@ -5,22 +5,22 @@ const isProtectedRoute = createRouteMatcher(["/create-property"]);
 const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect();
-  }
+  const authObj = await auth();
 
+  if (isProtectedRoute(req) && !authObj.userId) {
+    return authObj.redirectToSignIn({ returnBackUrl: req.url });
+  }
 
   if (
     isAdminRoute(req) &&
-    (await auth()).sessionClaims?.metadata?.role !== "admin"
+    authObj.sessionClaims?.metadata?.role !== "admin"
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  
   if (
     !createRouteMatcher(["/admin(.*)"])(req) &&
-    (await auth()).sessionClaims?.metadata?.role == "admin"
+    authObj.sessionClaims?.metadata?.role === "admin"
   ) {
     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
   }
