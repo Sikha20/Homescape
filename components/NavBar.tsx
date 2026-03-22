@@ -1,5 +1,5 @@
 "use client";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Show, UserButton } from "@clerk/nextjs";
 import { LandPlot, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,7 +38,7 @@ function NavBar() {
               : "Dashboard"}
           </button>
         </Link>
-        <SignedIn>
+        <Show when="signed-in">
           <div className="flex items-center justify-center gap-4">
             <UserButton>
 
@@ -51,8 +51,8 @@ function NavBar() {
               </UserButton.MenuItems>
             </UserButton>
           </div>
-        </SignedIn>
-        <SignedOut>
+        </Show>
+        <Show when="signed-out">
           <div className="md:hidden relative">
             <button
               onClick={() => setShowMenu(!showMenu)}
@@ -87,7 +87,7 @@ function NavBar() {
               </button>
             </Link>
           </div>
-        </SignedOut>
+        </Show>
       </div>
     </nav>
   );

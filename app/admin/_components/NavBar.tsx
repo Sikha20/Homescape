@@ -1,5 +1,5 @@
 // "use client"
-// import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+// import { Show, UserButton } from '@clerk/nextjs'
 // import { Menu } from 'lucide-react'
 // import Image from 'next/image'
 // import Link from 'next/link'
@@ -44,13 +44,13 @@
 //                             Admin Panel
 //                         </button>
 
-//                         <SignedIn>
+//                         <Show when="signed-in">
 //                             <div className='flex items-center'>
-//                                 <UserButton afterSignOutUrl="/" />
+//                                 <UserButton />
 //                             </div>
-//                         </SignedIn>
+//                         </Show>
                         
-//                         <SignedOut>
+//                         <Show when="signed-out">
 //                             <div className='md:hidden relative' id="mobile-menu">
 //                                 <button
 //                                     onClick={() => setShowMenu(!showMenu)}
@@ -86,7 +86,7 @@
 //                                     </button>
 //                                 </Link>
 //                             </div>
-//                         </SignedOut>
+//                         </Show>
 //                     </div>
 //                 </div>
 //             </div>
@@ -99,7 +99,7 @@
 
 
 "use client"
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { Show, UserButton } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -144,13 +144,13 @@ function NavBar() {
                             Admin Panel
                         </button>
 
-                        <SignedIn>
+                        <Show when="signed-in">
                             <div className='flex items-center'>
-                                <UserButton afterSignOutUrl="/" />
+                                <UserButton />
                             </div>
-                        </SignedIn>
+                        </Show>
                         
-                        <SignedOut>
+                        <Show when="signed-out">
                             <div className='md:hidden relative' id="mobile-menu">
                                 <button
                                     onClick={() => setShowMenu(!showMenu)}
@@ -186,7 +186,7 @@ function NavBar() {
                                     </button>
                                 </Link>
                             </div>
-                        </SignedOut>
+                        </Show>
                     </div>
                 </div>
             </div>
