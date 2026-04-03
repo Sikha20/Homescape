@@ -5,8 +5,7 @@
   --background: #ffffff;
   --foreground: #000000;
   --placeholder: #6a6a6a;
-  --primary: #ff395c;
-  /* --primary: #7a6263; */
+  --primary: #789274; /* Blood red maroon */
 }
 
 @theme inline {

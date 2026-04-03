@@ -1,11 +1,14 @@
 export const checkPaymentStatus = async (pidx: string) => {
   try {
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Key 05bf95cc57244045b8df5fad06748dab");
+    myHeaders.append(
+      "Authorization",
+      `Key ${process.env.NEXT_PUBLIC_KHALTI_SECRET_KEY?.trim()}`
+    );
     myHeaders.append("Content-Type", "application/json");
 
     const khaltiResponse = await fetch(
-      "https://dev.khalti.com/api/v2/epayment/lookup/",
+      process.env.KHALTI_VERIFY_PAYMENT_API_URL || "https://a.khalti.com/api/v2/epayment/lookup/",
       {
         method: "POST",
         headers: myHeaders,

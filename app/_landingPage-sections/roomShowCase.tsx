@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 export default async function RoomShowcaseSection() {
   //   Get latest properties
   const properties = await prisma.property.findMany({
+    where: { isListed: true },
     take: 3,
     orderBy: { createdAt: "desc" },
     include: {
@@ -52,7 +53,7 @@ export default async function RoomShowcaseSection() {
           <Link href="/dashboard">
             <Button
               size="lg"
-              className="bg-rose-500 hover:bg-rose-600 text-white px-8 py-6 text-lg rounded-md"
+              className="bg-[#789274] hover:bg-[#5a6d56] text-white px-8 py-6 text-lg rounded-md outline-none border-none transition-colors"
             >
               View All Listings
             </Button>

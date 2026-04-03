@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { sendEmail } from "./sendEmail";
 import { revalidatePath } from "next/cache";
+import { sendWhatsappMessage } from "./sendWhatsapp";
 
 export const rejectListings = async (
   id: string,
@@ -70,20 +71,27 @@ export const rejectListings = async (
           </div>
         `,
       });
-      revalidatePath(`admin/property/${id}`);
-      return {
-        success: true,
-        message: "Listing rejected successfully and email sent to the landlord",
-      };
     } catch (emailError) {
       console.error("Error sending rejection email:", emailError);
-      return {
-        success: false,
-        message: "Listing rejected but failed to send notification email",
-      };
+      // Continue execution
     }
-  } catch (dbError) {
-    console.error("Error updating database:", dbError);
+
+    try {
+      await sendWhatsappMessage(
+        "+9779800000000", 
+        `Notice: Your property listing has been rejected.${reason ? ` Reason: ${reason}` : ''}`
+      );
+    } catch (waError) {
+      console.error("Failed to send WhatsApp:", waError);
+    }
+
+    revalidatePath(`admin/property/${id}`);
+    return {
+      success: true,
+      message: "Listing rejected successfully and notifications sent",
+    };
+  } catch (error) {
+    console.error("Error updating database:", error);
     return {
       success: false,
       message: "Failed to reject listing",

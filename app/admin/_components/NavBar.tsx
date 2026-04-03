@@ -1,6 +1,6 @@
 "use client"
 import { Show, UserButton } from '@clerk/nextjs'
-import { Menu } from 'lucide-react'
+import { Menu, Home } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
@@ -27,15 +27,10 @@ function NavBar() {
                 <div className="flex justify-between items-center h-16">
                     <Link href={"/"}>
                         <div className="flex items-center space-x-2">
-                            <Image
-                                className='h-10 w-10 sm:h-12 sm:w-12'
-                                src={"/logo.png"}
-                                alt={'logo'}
-                                height={48}
-                                width={48}
-                                priority
-                            />
-                            <span className='text-sm sm:text-xl font-semibold'>Rent Ease</span>
+                            <div className="flex items-center justify-center bg-primary rounded-full p-2">
+                                <Home className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+                            </div>
+                            <span className='text-sm sm:text-xl font-bold text-primary'>Homescape</span>
                         </div>
                     </Link>
 

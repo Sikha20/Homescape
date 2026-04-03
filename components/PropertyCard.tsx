@@ -53,7 +53,7 @@ const PropertyCard = ({
         <span className="text-small-text flex items-center gap-1">
           Price: NPR {price}
         </span>
-        <button className="px-4 py-2 bg-primary text-background rounded-md hover:bg-red-700 transition duration-200 flex items-center justify-center gap-2">
+        <button className="px-4 py-2 bg-primary text-background rounded-md hover:bg-[#5a6d56] transition duration-200 flex items-center justify-center gap-2">
           Get Info
         </button>
       </div>

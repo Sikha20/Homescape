@@ -34,9 +34,6 @@ async function Page({ searchParams }: TSearchParams) {
 
   const properties = await db.property.findMany({
     where: {
-      NOT: {
-        userId: userId || ""
-      },
       ...whereConditions,
     },
     include: {

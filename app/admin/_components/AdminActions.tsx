@@ -73,7 +73,7 @@ function AdminActions({ id, email, isApproved }: { id: string, email: string, is
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
                                 <button
-                                    className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="bg-[#789274] text-white px-6 py-2 rounded-lg hover:bg-[#5a6d56] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                     disabled={isApproving}
                                 >
                                     {isApproving ? 'Approving...' : 'Approve Listing'}
@@ -89,7 +89,7 @@ function AdminActions({ id, email, isApproved }: { id: string, email: string, is
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                                     <AlertDialogAction
-                                        className="bg-green-500 hover:bg-green-600 disabled:opacity-50"
+                                        className="bg-[#789274] text-white hover:bg-[#5a6d56] disabled:opacity-50"
                                         onClick={handleApprove}
                                         disabled={isApproving}
                                     >

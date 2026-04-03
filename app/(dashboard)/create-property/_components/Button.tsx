@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { useFormStatus } from 'react-dom'
 import { Loader2 } from 'lucide-react'

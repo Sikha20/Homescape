@@ -1,6 +1,6 @@
 "use client";
 import { Show, UserButton } from "@clerk/nextjs";
-import { LandPlot, Menu } from "lucide-react";
+import { Home, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -20,14 +20,10 @@ function NavBar() {
     <nav className="flex bg-background justify-between items-center sm:py-3 sm:px-5 px-1 mb-5">
       <Link href={"/"}>
         <div className="flex items-center justify-center">
-          <Image
-            className="h-16 w-16"
-            src={"/logo.png"}
-            alt={"logo"}
-            height={30}
-            width={30}
-          />
-          <span className="text-xs sm:text-lg">Rent Ease</span>
+          <div className="flex items-center justify-center bg-primary rounded-full p-2 mr-2">
+            <Home className="h-6 w-6 text-white" />
+          </div>
+          <span className="text-xs sm:text-lg text-primary font-bold">Homescape</span>
         </div>
       </Link>
       <div className="flex items-center justify-center sm:gap-2 gap-0">
@@ -45,7 +41,7 @@ function NavBar() {
               <UserButton.MenuItems>
                 <UserButton.Link
                   label="My Listed Properties"
-                  labelIcon={<LandPlot />}
+                  labelIcon={<Home />}
                   href="/manage-listings"
                 />
               </UserButton.MenuItems>
@@ -82,7 +78,7 @@ function NavBar() {
               </button>
             </Link>
             <Link href={"/sign-up"}>
-              <button className="px-4 py-2 bg-primary text-background rounded-md hover:bg-red-700 transition duration-200">
+              <button className="px-4 py-2 bg-primary text-background rounded-md hover:bg-[#5a6d56] transition duration-200">
                 Sign Up
               </button>
             </Link>

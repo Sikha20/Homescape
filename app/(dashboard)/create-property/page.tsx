@@ -1,25 +1,46 @@
 "use client"
+import { useState, useRef } from "react";
 import { createProperty } from "@/actions/createProperty"
 import { toast } from 'react-hot-toast';
 import Button from "./_components/Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { X, UploadCloud } from "lucide-react";
 
 const PropertyForm = () => {
   const router = useRouter();
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      const MAX_SIZE = 5 * 1024 * 1024; // 5MB limit
+      const validFiles = filesArray.filter(file => {
+        if (file.size > MAX_SIZE) {
+          toast.error(`Image ${file.name} exceeds 5MB limit`);
+          return false;
+        }
+        return true;
+      });
+      setSelectedImages((prev) => [...prev, ...validFiles]);
+    }
+  };
+
+  const removeImage = (indexToRemove: number) => {
+    setSelectedImages((prev) => prev.filter((_, index) => index !== indexToRemove));
+  };
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      // Validate image size before submission
-      const images = formData.getAll('images') as File[];
-      const MAX_SIZE = 5 * 1024 * 1024; // 5MB in bytes
-
-      for (const image of images) {
-        if (image.size > MAX_SIZE) {
-          toast.error(`Image ${image.name} exceeds 5MB limit`);
-          return;
-        }
+      if (selectedImages.length === 0) {
+        toast.error("Please select at least one property image.");
+        return;
       }
+
+      // Append state images directly to formData instead of relying on input
+      formData.delete("images"); // Remove any native empty selections
+      selectedImages.forEach((img) => formData.append("images", img));
 
       const response = await createProperty(formData);
 
@@ -136,18 +157,46 @@ const PropertyForm = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2 text-gray-700">
-              Property Images (Max 5MB per image)
-            </label>
-            <input
-              type="file"
-              name="images"
-              multiple
-              accept="image/*"
-              className="w-full p-3 border border-primary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white/50 backdrop-blur-sm transition-all duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-              required
-            />
-            <p className="text-xs text-gray-500 mt-2">Each image must be less than 5MB</p>
+            <label className="block text-sm font-semibold mb-2 text-gray-700">Property Images (Max 5MB per image)</label>
+            <div 
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full flex flex-col items-center justify-center p-6 border-2 border-dashed border-primary/50 rounded-xl cursor-pointer hover:bg-primary/5 transition-colors duration-200"
+            >
+              <UploadCloud className="w-10 h-10 text-primary mb-2" />
+              <p className="text-gray-600 font-medium">Click to browse and choose files</p>
+              <p className="text-sm text-gray-400 mt-1">Accepts images up to 5MB</p>
+              <input
+                type="file"
+                name="images"
+                multiple
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+              />
+            </div>
+
+            {/* Image Previews */}
+            {selectedImages.length > 0 && (
+              <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 gap-4">
+                {selectedImages.map((file, index) => (
+                  <div key={index} className="relative group rounded-lg overflow-hidden border border-gray-200 aspect-square">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={`Preview ${index}`}
+                      className="object-cover w-full h-full"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <Button />
         </form>
@@ -155,11 +204,11 @@ const PropertyForm = () => {
       <div className="w-full md:w-1/2 order-1 md:order-2">
         <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-primary/20">
           <Image
-            width={330}
-            height={330}
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+            width={600}
+            height={400}
+            src="/aesthetic_3d_house.png"
             alt="Beautiful house"
-            className="w-full h-56 object-cover"
+            className="w-full h-64 object-cover"
           />
           <div className="p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">Tips for Property Images</h3>

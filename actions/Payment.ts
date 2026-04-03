@@ -1,3 +1,4 @@
+"use server";
 import { TProperty } from "@/lib/types";
 
 export const initializePayment = async ({
@@ -9,25 +10,29 @@ export const initializePayment = async ({
 }) => {
   try {
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Key 05bf95cc57244045b8df5fad06748dab");
+    myHeaders.append(
+      "Authorization",
+      `Key ${process.env.NEXT_PUBLIC_KHALTI_SECRET_KEY?.trim()}`
+    );
     myHeaders.append("Content-Type", "application/json");
     const khaltiResponse = await fetch(
-      "https://dev.khalti.com/api/v2/epayment/initiate/",
+      process.env.KHALTI_INITIATE_PAYMENT_API_URL || "https://a.khalti.com/api/v2/epayment/initiate/",
       {
         method: "POST",
         headers: myHeaders,
         body: JSON.stringify({
           return_url: "http://localhost:3000/manage-listings",
           website_url: "http://localhost:3000",
-          amount: Math.round(totalAmount * 100).toString(),
+          amount: Math.round(totalAmount * 100),
           purchase_order_id: property?.id,
-          purchase_order_name: property?.location
+          purchase_order_name: (property?.location
             ? `Property Rent - ${property.location}`
-            : "Property Rent - Unknown Location",
+            : "Property Rent - Unknown Location").substring(0, 50),
           customer_info: {
             name: property?.landlord?.name || "Unknown",
             email:
               property?.landlord?.emails?.[0]?.email || "unknown@email.com",
+            phone: "9800000000",
           },
         }),
         redirect: "follow",
@@ -36,8 +41,9 @@ export const initializePayment = async ({
 
     if (!khaltiResponse.ok) {
       const errorData = await khaltiResponse.json();
+      console.error("Khalti Error Response:", errorData);
       throw new Error(
-        errorData.message || `HTTP error! status: ${khaltiResponse.status}`
+        errorData.detail || errorData.message || JSON.stringify(errorData)
       );
     }
 

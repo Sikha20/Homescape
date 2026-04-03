@@ -29,7 +29,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Payment Payment[]
+  Payment  Payment[]
+  Visit    Visit[]
 }
 
 model Payment {
@@ -83,6 +84,7 @@ model Property {
   Rental    Rental[]
 
   Payment Payment[]
+  Visit   Visit[]
 }
 
 model PropertyImages {
@@ -141,4 +143,17 @@ enum Location {
   Ilam
   Tansen
   Dhulikhel
+}
+
+model Visit {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [userId])
+  visitType  String   @default("PHYSICAL") // "VIRTUAL" or "PHYSICAL"
+  date       DateTime
+  status     String   @default("PENDING") // "PENDING", "APPROVED", "REJECTED"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

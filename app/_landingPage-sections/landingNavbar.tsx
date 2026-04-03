@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home } from "lucide-react";
 
 export default function LandingNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,8 +17,10 @@ export default function LandingNavbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo Section */}
         <Link href="/" className="flex items-center shrink-0">
-          <Image src="/logo.png" alt="Homescape Logo" width={40} height={40} />
-          <span className="ml-2 text-xl font-bold">Homescape</span>
+          <div className="flex items-center justify-center bg-primary rounded-full p-2">
+            <Home className="h-6 w-6 text-white" />
+          </div>
+          <span className="ml-2 text-xl font-bold text-primary">Homescape</span>
         </Link>
 
         {/* Desktop Navigation - Adjusted spacing */}
@@ -98,7 +100,7 @@ export default function LandingNavbar() {
               FAQ
             </Link>
             <Link href="/create-property" className="mt-2" onClick={toggleMenu}>
-              <Button className="w-full  hover:bg-red-600 text-white rounded-full">
+              <Button className="w-full hover:bg-[#789274] text-white rounded-full">
                 Rent Your Property
               </Button>
             </Link>

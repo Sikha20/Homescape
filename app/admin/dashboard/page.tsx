@@ -56,7 +56,11 @@ async function Page({
             properties = await db.property.findMany({
                 include: {
                     images: true,
-                    landlord: true,
+                    landlord: {
+                        include: {
+                            emails: true
+                        }
+                    },
                     Rental: true
                 },
                 orderBy: {
@@ -72,9 +76,7 @@ async function Page({
         const totalPages = Math.ceil(total / limit);
 
 
-        if (currentPage < 1 || (totalPages > 0 && currentPage > totalPages)) {
-            throw new Error('Invalid page number');
-        }
+        // Removed strict throwing to prevent page crashes on invalid searchParams
         // console.log(properties)
 
         return (
@@ -102,7 +104,7 @@ async function Page({
                         </div>
                         <button
                             type="submit"
-                            className="bg-[#fa3e58] text-white px-4 py-2 rounded-md hover:red-800 text-sm font-medium"
+                            className="bg-[#789274] text-white px-4 py-2 rounded-md hover:bg-[#5a6d56] text-sm font-medium"
                         >
                             Filter
                         </button>
@@ -111,9 +113,9 @@ async function Page({
 
                 {properties.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {properties.map((property: TProperty) => (
+                        {properties.filter(Boolean).map((property: TProperty) => (
                             <div key={property?.id} className="transform transition duration-200 hover:scale-[1.02]">
-                                <PropertyCard property={property} />
+                                <PropertyCard property={property as any} />
                             </div>
                         ))}
                     </div>
@@ -144,7 +146,7 @@ async function Page({
                                         href={`/admin/dashboard?page=${index + 1}${email ? `&email=${email}` : ''}`}
                                         className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md
                                         ${currentPage === index + 1
-                                                ? 'z-10 bg-[#fa3e58] text-white'
+                                                ? 'z-10 bg-[#789274] text-white'
                                                 : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'}`}
                                         aria-current={currentPage === index + 1 ? "page" : undefined}
                                     >

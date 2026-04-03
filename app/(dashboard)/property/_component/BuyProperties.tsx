@@ -45,7 +45,7 @@ export function BuyPropertyDialog({ property }: { property: TProperty }) {
         <>
             <Button
                 onClick={handleOpenDialog}
-                className="w-full bg-[#FC3955] hover:bg-red-800 text-white py-4 rounded-xl text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-emerald-500/30"
+                className="w-full bg-[#789274] hover:bg-[#5a6d56] text-white py-4 rounded-xl text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-emerald-500/30"
             >
                 Buy This Property
             </Button>
@@ -62,13 +62,13 @@ export function BuyPropertyDialog({ property }: { property: TProperty }) {
                         {showTerms ? (
                             <div className="space-y-8">
                                 <div className="max-h-64 overflow-y-auto text-gray-700 text-base bg-gray-50 p-6 rounded-xl">
-                                    <h3 className="font-bold text-lg mb-4 text-emerald-700">Please read and accept our terms:</h3>
+                                    <h3 className="font-bold text-lg mb-4 text-[#789274]">Please read and accept our terms:</h3>
                                     <ol className="list-decimal pl-6 space-y-3">
-                                        <li className="transition-all hover:text-emerald-600">All payments are non-refundable once processed.</li>
-                                        <li className="transition-all hover:text-emerald-600">Property viewing is mandatory before finalizing the purchase.</li>
-                                        <li className="transition-all hover:text-emerald-600">The buyer is responsible for verifying all property details.</li>
-                                        <li className="transition-all hover:text-emerald-600">Additional taxes and fees may apply.</li>
-                                        <li className="transition-all hover:text-emerald-600">The transaction must be completed within 30 days.</li>
+                                        <li className="transition-all hover:text-[#789274]">Booking fee is fully refundable if the deal does not proceed.</li>
+                                        <li className="transition-all hover:text-[#789274]">Property viewing is mandatory before finalizing the purchase.</li>
+                                        <li className="transition-all hover:text-[#789274]">The buyer is responsible for verifying all property details.</li>
+                                        <li className="transition-all hover:text-[#789274]">Additional taxes and fees may apply.</li>
+                                        <li className="transition-all hover:text-[#789274]">The transaction must be completed within 30 days.</li>
                                     </ol>
                                 </div>
 
@@ -77,9 +77,9 @@ export function BuyPropertyDialog({ property }: { property: TProperty }) {
                                         id="terms"
                                         checked={termsAccepted}
                                         onCheckedChange={(checked) => setTermsAccepted(checked as boolean)}
-                                        className="h-5 w-5 border-2 border-emerald-500 rounded transition-all text-black"
+                                        className="h-5 w-5 border-2 border-[#789274] rounded transition-all text-black"
                                     />
-                                    <label htmlFor="terms" className="text-base text-gray-700 cursor-pointer hover:text-emerald-600 transition-all">
+                                    <label htmlFor="terms" className="text-base text-gray-700 cursor-pointer hover:text-[#789274] transition-all">
                                         I accept the terms and conditions
                                     </label>
                                 </div>
@@ -87,7 +87,7 @@ export function BuyPropertyDialog({ property }: { property: TProperty }) {
                                 <Button
                                     onClick={handleAcceptTerms}
                                     disabled={!termsAccepted}
-                                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-emerald-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full bg-[#789274] hover:bg-[#5a6d56] text-white py-4 rounded-xl text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-[#789274]/30 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Continue to Payment
                                 </Button>

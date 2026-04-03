@@ -2,6 +2,7 @@
 import { db } from "@/lib/db";
 import { sendEmail } from "./sendEmail";
 import { revalidatePath } from "next/cache";
+import { sendWhatsappMessage } from "./sendWhatsapp";
 
 export const approveListings = async (id: string, email: string) => {
   try {
@@ -64,6 +65,17 @@ export const approveListings = async (id: string, email: string) => {
       console.error("Failed to send approval email:", emailError);
       // Continue execution even if email fails
     }
+
+    try {
+      // Simulate WhatsApp message to landlord
+      await sendWhatsappMessage(
+        "+9779800000000", // Replace with real landlord phone number from DB
+        `Congratulations! Your property listing has been approved and is now live on Homescape.`
+      );
+    } catch (waError) {
+      console.error("Failed to send WhatsApp:", waError);
+    }
+
     revalidatePath(`admin/property/${id}`);
 
     return {

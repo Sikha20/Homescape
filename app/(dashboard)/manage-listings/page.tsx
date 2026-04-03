@@ -31,19 +31,30 @@ export default async function ManageListings({ searchParams }: TManageListingsPa
       const paymentStatus = await checkPaymentStatus(pidx);
       if (paymentStatus.response.status !== 'Completed') {
         return (
-          <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
-              <div className="text-center">
-                <h2 className="text-2xl font-bold text-red-600 mb-4">Payment Failed</h2>
-                <p className="text-gray-600 mb-6">Your payment failed. Please try again later.</p>
+          <>
+            <script dangerouslySetInnerHTML={{__html: `
+              if (window.opener && !window.opener.closed) {
+                window.opener.location.href = window.location.href;
+                window.close();
+              }
+            `}} />
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+              <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-gray-100 max-w-md w-full">
+                <div className="text-center">
+                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                   <span className="text-4xl text-red-500">✕</span>
+                </div>
+                <h2 className="text-3xl font-extrabold text-red-500 mb-4">Payment Failed</h2>
+                <p className="text-gray-600 mb-8 font-medium">Your payment could not be processed. Please try again later.</p>
                 <Link href={"/manage-listings"}>
-                  <button className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors">
-                    Retry
+                  <button className="bg-red-500 text-white w-full py-4 rounded-xl font-semibold text-lg hover:bg-red-600 transition-colors shadow-md active:scale-95">
+                    Retry Payment
                   </button>
                 </Link>
               </div>
             </div>
           </div>
+          </>
         );
       }
     }
@@ -91,19 +102,30 @@ export default async function ManageListings({ searchParams }: TManageListingsPa
     });
 
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">Booking Successful!</h2>
-            <p className="text-gray-600 mb-6">Your property has been booked successfully.</p>
+      <>
+        <script dangerouslySetInnerHTML={{__html: `
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.href = window.location.href;
+            window.close();
+          }
+        `}} />
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+          <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-gray-100 max-w-md w-full">
+            <div className="text-center">
+            <div className="w-20 h-20 bg-[#789274]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+               <span className="text-4xl text-[#789274]">✓</span>
+            </div>
+            <h2 className="text-3xl font-extrabold text-[#789274] mb-4">Booking Successful!</h2>
+            <p className="text-gray-600 mb-8 font-medium">Your property has been booked successfully! The landlord will be in touch shortly.</p>
             <Link href={"/manage-listings"}>
-              <button className="bg-[#FA3A59] text-white px-6 py-2 rounded-md hover:bg-red-800 transition-colors">
+              <button className="bg-[#789274] w-full text-white py-4 rounded-xl text-lg font-semibold hover:bg-[#5a6d56] transition-colors shadow-lg hover:shadow-[#789274]/30 active:scale-95">
                 View My Listings
               </button>
             </Link>
           </div>
         </div>
       </div>
+      </>
     );
   } catch (error) {
     console.error("Error in ManageListings:", error);

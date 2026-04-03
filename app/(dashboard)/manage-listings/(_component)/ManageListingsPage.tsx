@@ -4,6 +4,7 @@ import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import PropertyDeletionForm from './PropertyDeletionForm'
+import CancelBookingButton from './CancelBookingButton'
 
 export default async function ManageListingsPage() {
     const { userId } = await auth()
@@ -148,9 +149,10 @@ export default async function ManageListingsPage() {
                                             <span className="text-green-600 font-medium">Active</span>
                                         </div>
                                     </div>
-                                    <div className="flex justify-end mt-6">
+                                    <div className="flex justify-between items-center mt-6">
+                                        <CancelBookingButton propertyId={rental.propertyId} userId={userId} />
                                         <Image
-                                            className="rounded-full border-2 border-gray-200"
+                                            className="rounded-full border-2 border-gray-200 ml-4"
                                             width={80}
                                             height={80}
                                             src={rental.property.landlord.profileUrl || "/logo.png"}

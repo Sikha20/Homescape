@@ -13,35 +13,41 @@ function ClientPaymentSection({ property }: { property: TProperty }) {
     // const { userId } = useAuth();
 
 
+    const [selectedMonths, setSelectedMonths] = useState(1);
+    const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+
     const paymentInitialization = async () => {
         try {
+            const toastId = toast.loading("Initializing payment...");
             const response = await initializePayment({ property, totalAmount });
-            console.error(`BUG_FIX: ${response}`);
+            toast.dismiss(toastId);
+            console.log("BUG_FIX: ", response);
             if (!response.success) {
-                toast.error(response.message || "Error initializing payment");
+                toast.error(`Error: ${response.error}` || "Error initializing payment");
                 return;
             }
 
             if (response.response?.payment_url) {
-                toast.loading("Redirecting to payments")
-                router.push(response.response.payment_url);
-
+                toast.dismiss();
+                toast.success("Opening secure payment terminal...");
+                window.location.href = response.response.payment_url;
             } else {
                 toast.error("Payment URL not received");
             }
         } catch (error) {
+            toast.dismiss();
             toast.error("Failed to process payment");
             console.error(error);
         }
     };
-
-    const [selectedMonths, setSelectedMonths] = useState(1);
 
     const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMonths(parseInt(e.target.value));
     };
 
     const totalAmount = property?.price ? property.price * selectedMonths : 0;
+
+// Removed iframe block
 
     return (
         <div className="space-y-6">
@@ -82,7 +88,7 @@ function ClientPaymentSection({ property }: { property: TProperty }) {
                     disabled={!property?.price}
                     className={`mt-4 w-full py-3 rounded-lg font-semibold transition duration-200 
                         ${property?.price
-                            ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                            ? 'bg-[#789274] hover:bg-[#5a6d56] text-white shadow-md active:scale-95'
                             : 'bg-gray-300 cursor-not-allowed text-gray-500'}`}
                 >
                     {property?.price ? 'Proceed to Payment' : 'Price Not Available'}

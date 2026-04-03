@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 // font imported form google font
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 })
 
 export const metadata: Metadata = {

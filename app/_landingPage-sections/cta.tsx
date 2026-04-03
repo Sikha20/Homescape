@@ -25,28 +25,24 @@ export default function CTASection() {
 
           {/* Buttons */}
           <div className="flex flex-col gap-4 min-[400px]:flex-row">
-            <Link href="/create-property" passHref legacyBehavior>
-              <Button
-                asChild
-                size="lg"
-                className="px-8 bg-transparent border-primary-foreground hover:bg-primary-foreground/10 transition-colors cursor-pointer"
-                variant="outline"
-                aria-label="List your property on our platform"
-              >
-                <span>List Your Property</span>
-              </Button>
-            </Link>
-            <Link href="/dashboard" passHref legacyBehavior>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="px-8 bg-transparent border-primary-foreground hover:bg-primary-foreground/10 transition-colors cursor-pointer"
-                aria-label="Browse available rental properties"
-              >
-                <span>Browse Rentals</span>
-              </Button>
-            </Link>
+            <Button
+              asChild
+              size="lg"
+              className="px-8 bg-transparent border-primary-foreground hover:bg-primary-foreground/10 transition-colors cursor-pointer"
+              variant="outline"
+              aria-label="List your property on our platform"
+            >
+              <Link href="/create-property">List Your Property</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="px-8 bg-transparent border-primary-foreground hover:bg-primary-foreground/10 transition-colors cursor-pointer"
+              aria-label="Browse available rental properties"
+            >
+              <Link href="/dashboard">Browse Rentals</Link>
+            </Button>
           </div>
         </div>
       </div>
