@@ -5,7 +5,8 @@ import Image from "next/image";
 import { BuyPropertyDialog } from "../_component/BuyProperties";
 import { BookVisitDialog } from "../_component/BookVisitDialog";
 import { PrintPropertyButton } from "../_component/PrintPropertyButton";
-import { FaMapMarkerAlt, FaBed, FaBath, FaRulerCombined, FaCompass, FaCalendarAlt, FaRoad, FaCheckCircle, FaHeart, FaHome } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBed, FaBath, FaRulerCombined, FaCheckCircle, FaHeart, FaHome, FaRulerCombined as FaCategory } from 'react-icons/fa';
+import PropertyMapWrapper from "../_component/PropertyMapWrapper";
 
 async function Page({ params }: TPageProps) {
   const property = await getPropertyDetails((await params).id);
@@ -77,32 +78,24 @@ async function Page({ params }: TPageProps) {
                <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Property ID</p><p className="font-semibold text-gray-800 mt-1">PRO-{property?.id?.substring(0, 5).toUpperCase()}</p></div>
              </div>
              <div className="flex items-start gap-4">
-               <FaCompass className="text-[#789274] mt-1" size={20} />
-               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Face</p><p className="font-semibold text-gray-800 mt-1">East-Facing</p></div>
-             </div>
-             <div className="flex items-start gap-4">
-               <FaRoad className="text-[#789274] mt-1" size={20} />
-               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Road Access</p><p className="font-semibold text-gray-800 mt-1">15 ft. Pitched Road</p></div>
-             </div>
-             <div className="flex items-start gap-4">
-               <FaRulerCombined className="text-[#789274] mt-1" size={20} />
-               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Total Area</p><p className="font-semibold text-gray-800 mt-1">3,500 sq. ft.</p></div>
+               <FaMapMarkerAlt className="text-[#789274] mt-1" size={20} />
+               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Location</p><p className="font-semibold text-gray-800 mt-1">{property?.location}</p></div>
              </div>
              <div className="flex items-start gap-4">
                <FaBed className="text-[#789274] mt-1" size={20} />
-               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Bedrooms</p><p className="font-semibold text-gray-800 mt-1">{property?.noOfRooms} Bedrooms</p></div>
+               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Bedrooms</p><p className="font-semibold text-gray-800 mt-1">{property?.noOfRooms ?? "N/A"}</p></div>
              </div>
              <div className="flex items-start gap-4">
                <FaBath className="text-[#789274] mt-1" size={20} />
-               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Bathrooms</p><p className="font-semibold text-gray-800 mt-1">{property?.noOfBathrooms} Bathrooms</p></div>
-             </div>
-             <div className="flex items-start gap-4">
-               <FaCalendarAlt className="text-[#789274] mt-1" size={20} />
-               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Built Year</p><p className="font-semibold text-gray-800 mt-1">2023</p></div>
+               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Bathrooms</p><p className="font-semibold text-gray-800 mt-1">{property?.noOfBathrooms ?? "N/A"}</p></div>
              </div>
              <div className="flex items-start gap-4">
                <FaCheckCircle className="text-[#789274] mt-1" size={20} />
                <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Status</p><p className="font-semibold text-gray-800 mt-1">{property?.isListed ? "Available" : "Not Available"}</p></div>
+             </div>
+             <div className="flex items-start gap-4">
+               <FaRulerCombined className="text-[#789274] mt-1" size={20} />
+               <div><p className="text-xs text-gray-400 font-bold tracking-wider uppercase">Category</p><p className="font-semibold text-gray-800 mt-1">{property?.category}</p></div>
              </div>
            </div>
 
@@ -114,8 +107,9 @@ async function Page({ params }: TPageProps) {
              <div className="text-sm font-medium space-y-3 mt-4 text-gray-800 bg-gray-50/50 p-6 rounded-xl w-fit border border-gray-100">
                <p><span className="text-gray-500 w-36 inline-block">Location:</span> {property?.location}</p>
                <p><span className="text-gray-500 w-36 inline-block">Category:</span> {property?.category}</p>
-               <p><span className="text-gray-500 w-36 inline-block">Road Access:</span> 15 feet</p>
-               <p><span className="text-gray-500 w-36 inline-block">Price:</span> NRs. {property?.price?.toLocaleString() || "N/A"}</p>
+               <p><span className="text-gray-500 w-36 inline-block">Bedrooms:</span> {property?.noOfRooms ?? "N/A"}</p>
+               <p><span className="text-gray-500 w-36 inline-block">Bathrooms:</span> {property?.noOfBathrooms ?? "N/A"}</p>
+               <p><span className="text-gray-500 w-36 inline-block">Price:</span> NRs. {property?.price?.toLocaleString() ?? "N/A"} / month</p>
              </div>
            </div>
 
@@ -135,15 +129,13 @@ async function Page({ params }: TPageProps) {
            <div className="border-t border-gray-100 pt-10 space-y-6">
              <h3 className="text-2xl font-bold text-gray-900">Location</h3>
              <div className="w-full h-[450px] rounded-2xl overflow-hidden bg-gray-100 shadow-inner border border-gray-200">
-               <iframe
-                 title="Property Location Map"
-                 src={`https://maps.google.com/maps?q=${encodeURIComponent(property?.location || "Baneshwor Kathmandu")}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-                 width="100%"
-                 height="100%"
-                 frameBorder="0"
-                 style={{ border: 0 }}
-                 allowFullScreen
-               ></iframe>
+              <PropertyMapWrapper
+                latitude={property?.latitude}
+                longitude={property?.longitude}
+                locationName={property?.location || "Kathmandu"}
+                propertyTitle={`${property?.category} in ${property?.location}`}
+                price={property?.price}
+              />
              </div>
            </div>
            

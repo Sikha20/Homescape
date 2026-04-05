@@ -68,6 +68,8 @@ model Property {
   landlord User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   location      Location
+  latitude      Float?
+  longitude     Float?
   isListed      Boolean      @default(false)
   isBooked      Boolean      @default(false)
   price         Int
@@ -85,6 +87,7 @@ model Property {
 
   Payment Payment[]
   Visit   Visit[]
+  VacancyAnnouncement VacancyAnnouncement?
 }
 
 model PropertyImages {
@@ -156,4 +159,16 @@ model Visit {
   status     String   @default("PENDING") // "PENDING", "APPROVED", "REJECTED"
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model VacancyAnnouncement {
+  id              String   @id @default(cuid())
+  propertyId      String   @unique   // one active announcement per property
+  property        Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  vacantFrom      DateTime           // the date property becomes vacant
+  notes           String?
+  postedBy        String   @default("LANDLORD") // "LANDLORD" | "TENANT"
+  postedByUserId  String             // the user who posted
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

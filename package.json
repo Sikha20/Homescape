@@ -26,6 +26,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.5.0",
     "html2pdf.js": "^0.14.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.479.0",
     "motion": "^12.5.0",
     "next": "^15.5.14",
@@ -35,6 +36,7 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
+    "react-leaflet": "^5.0.0",
     "shadcn": "^2.4.0-canary.17",
     "svix": "^1.61.4",
     "tailwind-merge": "^3.0.2",
@@ -44,6 +46,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",

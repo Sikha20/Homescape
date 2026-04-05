@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PropertyDeletionForm from './PropertyDeletionForm'
 import CancelBookingButton from './CancelBookingButton'
+import VacancyAnnouncementForm from './VacancyAnnouncementForm'
+import TenantVacancyNotice from './TenantVacancyNotice'
 
 export default async function ManageListingsPage() {
     const { userId } = await auth()
@@ -18,9 +20,10 @@ export default async function ManageListingsPage() {
         include: {
             images: true,
             landlord: true,
+            VacancyAnnouncement: true,
             Rental: {
                 include: {
-                    user: true // Include user information for rentals
+                    user: true
                 }
             },
             Payment: {
@@ -42,7 +45,8 @@ export default async function ManageListingsPage() {
                         include: {
                             emails: true
                         }
-                    }
+                    },
+                    VacancyAnnouncement: true
                 }
             }
         }
@@ -114,6 +118,28 @@ export default async function ManageListingsPage() {
                     </div>
                 </section>
 
+                {/* Vacancy Announcement section (landlords) */}
+                <VacancyAnnouncementForm
+                    currentUserId={userId}
+                    properties={myProperties.map(p => ({
+                        id: p.id,
+                        location: p.location,
+                        category: p.category,
+                        price: p.price,
+                        noOfRooms: p.noOfRooms,
+                        noOfBathrooms: p.noOfBathrooms,
+                        image: p.images[0]?.image ?? null,
+                        VacancyAnnouncement: p.VacancyAnnouncement
+                            ? {
+                                vacantFrom: p.VacancyAnnouncement.vacantFrom,
+                                notes: p.VacancyAnnouncement.notes,
+                                postedBy: p.VacancyAnnouncement.postedBy,
+                                postedByUserId: p.VacancyAnnouncement.postedByUserId,
+                              }
+                            : null,
+                    }))}
+                />
+
                 {/* Properties I rent section */}
                 <section className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6">Properties I Rent</h2>
@@ -133,6 +159,18 @@ export default async function ManageListingsPage() {
                                     </div>
                                 </div>
                                 <div className="p-6">
+                                    {/* Tenant vacancy notice — always visible, self-post enabled */}
+                                    <TenantVacancyNotice
+                                        propertyId={rental.propertyId}
+                                        propertyTitle={`${rental.property.category.replace("_", " ")} in ${rental.property.location}`}
+                                        propertyImage={rental.property.images?.[0]?.image ?? null}
+                                        propertyPrice={rental.property.price}
+                                        vacantFrom={rental.property.VacancyAnnouncement?.vacantFrom ?? null}
+                                        notes={rental.property.VacancyAnnouncement?.notes ?? null}
+                                        postedBy={rental.property.VacancyAnnouncement?.postedBy ?? null}
+                                        postedByUserId={rental.property.VacancyAnnouncement?.postedByUserId ?? null}
+                                        currentUserId={userId}
+                                    />
                                     <h3 className="text-xl font-semibold text-gray-900 mb-2">{rental.property?.location}</h3>
                                     <p className="text-gray-700 text-base mb-2 line-clamp-2">{rental.property?.description}</p>
                                     <div className="flex flex-col gap-2 text-sm text-gray-500 border-t pt-4 mt-2">

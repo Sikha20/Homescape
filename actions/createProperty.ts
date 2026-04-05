@@ -11,6 +11,8 @@ export const createProperty = async (formData: FormData) => {
   try {
     // Extract values from form data
     const location = formData.get("location") as Location;
+    const latitude = formData.get("latitude") ? Number(formData.get("latitude")) : undefined;
+    const longitude = formData.get("longitude") ? Number(formData.get("longitude")) : undefined;
     const price = Number(formData.get("price"));
     const category = formData.get("category") as PropertyType;
     const noOfRooms = Number(formData.get("noOfRooms"));
@@ -21,6 +23,8 @@ export const createProperty = async (formData: FormData) => {
 
     const payLoad = {
       location,
+      latitude,
+      longitude,
       price,
       category,
       noOfRooms,
@@ -71,6 +75,8 @@ export const createProperty = async (formData: FormData) => {
       data: {
         userId: userId || "",
         location,
+        latitude,
+        longitude,
         price,
         category,
         noOfRooms,

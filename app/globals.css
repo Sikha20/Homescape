@@ -98,3 +98,24 @@ body {
 .animate-layeredFade {
   animation: layeredFade 1s ease-out forwards;
 }
+
+/* ── Leaflet popup skin ─────────────────────────────────────── */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+  padding: 0 !important;
+  font-family: inherit !important;
+}
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+.leaflet-popup-tip {
+  box-shadow: none !important;
+}
+/* Hide leaflet default attribution clutter on small maps */
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  opacity: 0.6;
+}

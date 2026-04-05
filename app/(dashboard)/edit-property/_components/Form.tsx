@@ -4,10 +4,15 @@ import { useRouter } from 'next/navigation';
 
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import dynamic from 'next/dynamic';
+
+const MapPicker = dynamic(() => import('../../create-property/_components/MapPicker'), { ssr: false });
 
 function Form({ id }: { id: string }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+    const [selectedCity, setSelectedCity] = useState<string>("");
 
     const handleSubmit = async (formData: FormData) => {
         setIsLoading(true);
@@ -25,6 +30,11 @@ function Form({ id }: { id: string }) {
                     setIsLoading(false);
                     return;
                 }
+            }
+
+            if (coordinates) {
+                formData.append("latitude", coordinates.lat.toString());
+                formData.append("longitude", coordinates.lng.toString());
             }
 
             const response = await updateProperty(formData, id);
@@ -56,6 +66,8 @@ function Form({ id }: { id: string }) {
                     className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                     required
                     disabled={isLoading}
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
                 >
                     <option value="">Select a location</option>
                     <option value="Kathmandu">Kathmandu</option>
@@ -79,6 +91,12 @@ function Form({ id }: { id: string }) {
                     <option value="Tansen">Tansen</option>
                     <option value="Dhulikhel">Dhulikhel</option>
                 </select>
+            </div>
+
+            <div className="mb-4">
+                <label className="block text-sm font-medium mb-1">Update Exact Location (Pin on Map)</label>
+                <p className="text-xs text-gray-500 mb-2">Click on the map to change the exact location of your property.</p>
+                <MapPicker city={selectedCity} onLocationChange={(lat, lng) => setCoordinates({ lat, lng })} />
             </div>
 
             <div className="mb-4">

@@ -9,6 +9,8 @@ export async function updateProperty(formData: FormData, id: string) {
   try {
     // Extract form data
     const location = formData.get("location") as Location;
+    const latitude = formData.get("latitude") ? Number(formData.get("latitude")) : undefined;
+    const longitude = formData.get("longitude") ? Number(formData.get("longitude")) : undefined;
     const price = Number(formData.get("price"));
     const category = formData.get("category") as PropertyType;
     const noOfRooms = Number(formData.get("noOfRooms"));
@@ -45,6 +47,8 @@ export async function updateProperty(formData: FormData, id: string) {
       },
       data: {
         location,
+        ...(latitude !== undefined && { latitude }),
+        ...(longitude !== undefined && { longitude }),
         price,
         category,
         noOfRooms,

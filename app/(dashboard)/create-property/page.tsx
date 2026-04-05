@@ -6,10 +6,15 @@ import Button from "./_components/Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X, UploadCloud } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const MapPicker = dynamic(() => import("./_components/MapPicker"), { ssr: false });
 
 const PropertyForm = () => {
   const router = useRouter();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [coordinates, setCoordinates] = useState<{ lat: number; lng: number } | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +47,11 @@ const PropertyForm = () => {
       formData.delete("images"); // Remove any native empty selections
       selectedImages.forEach((img) => formData.append("images", img));
 
+      if (coordinates) {
+        formData.append("latitude", coordinates.lat.toString());
+        formData.append("longitude", coordinates.lng.toString());
+      }
+
       const response = await createProperty(formData);
 
       if (response.success) {
@@ -63,13 +73,15 @@ const PropertyForm = () => {
           <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">List Your Property</h2>
 
           <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2 text-gray-700">Location</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-700">City / District</label>
             <select
               name="location"
               className="w-full p-3 border border-primary/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white/50 backdrop-blur-sm transition-all duration-200"
               required
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
             >
-              <option value="">Select a location</option>
+              <option value="">Select a city</option>
               <option value="Kathmandu">Kathmandu</option>
               <option value="Pokhara">Pokhara</option>
               <option value="Lalitpur">Lalitpur</option>
@@ -91,6 +103,14 @@ const PropertyForm = () => {
               <option value="Tansen">Tansen</option>
               <option value="Dhulikhel">Dhulikhel</option>
             </select>
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-sm font-semibold mb-2 text-gray-700">Exact Property Location</label>
+            <MapPicker
+              city={selectedCity}
+              onLocationChange={(lat, lng) => setCoordinates({ lat, lng })}
+            />
           </div>
 
           <div className="mb-6">

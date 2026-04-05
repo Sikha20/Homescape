@@ -6,6 +6,7 @@ import CTASection from "./_landingPage-sections/cta";
 import FAQSection from "./_landingPage-sections/faq";
 import Footer from "./_landingPage-sections/footer";
 import RoomShowcaseSection from "./_landingPage-sections/roomShowCase";
+import UpcomingVacanciesSection from "./_landingPage-sections/upcomingVacancies";
 import About from "./(dashboard)/about-us/page";
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <HowItWorksSection />
       <CTASection />
       <RoomShowcaseSection />
+      <UpcomingVacanciesSection />
       <About></About>
       <FAQSection />
       <Footer />
